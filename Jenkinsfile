@@ -1,40 +1,21 @@
 pipeline {
-    agent any
-    stages {
-        stage('Setup parameters') {
+    agent { label 'spot-instance' }
+    
+    environment {
+        currentDate = sh(returnStdout: true, script: 'date +%Y-%m-%d').trim()
+    }
+ 
+        stage ('Run another Job'){
             steps {
-                script { 
-                    properties([
-                        parameters([
-                            choice(
-                                choices: ['ONE', 'TWO'], 
-                                name: 'PARAMETER_01'
-                            ),
-                            booleanParam(
-                                defaultValue: true, 
-                                description: '', 
-                                name: 'BOOLEAN'
-                            ),
-                            text(
-                                defaultValue: '''
-                                this is a multi-line 
-                                string parameter example
-                                ''', 
-                                 name: 'MULTI-LINE-STRING'
-                            ),
-                            string(
-                                defaultValue: 'scriptcrunch', 
-                                name: 'STRING-PARAMETER', 
-                                trim: true
-                            )
-                        ])
-                    ])
-                }
+                build job: "Release Helpers/(TEST) Schedule Release Job2",
+                parameters: [
+                    [$class: 'StringParameterValue', name: 'ReleaseDate', value: "${currentDate}"]
+ 
+                ]
             }
         }
-    }   
 }
-
+ 
 /*
 pipeline {
     agent any
