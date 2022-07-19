@@ -9,7 +9,6 @@ pipeline {
                 build job: "Release Helpers/(TEST) Schedule Release Job2",
                 parameters: [
                     [$class: 'StringParameterValue', name: 'ReleaseDate', value: "${currentDate}"]
- 
                 ]
             }
         }
