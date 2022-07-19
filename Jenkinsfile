@@ -4,7 +4,6 @@ pipeline {
     environment {
         currentDate = sh(returnStdout: true, script: 'date +%Y-%m-%d').trim()
     }
- 
         stage ('Run another Job'){
             steps {
                 build job: "Release Helpers/(TEST) Schedule Release Job2",
